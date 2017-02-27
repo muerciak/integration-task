@@ -10,7 +10,6 @@ import java.io.StringWriter;
 
 public class PersonToXmlTransformer implements GenericTransformer<Person, String> {
 
-
     @Override
     public String transform(Person source) {
         JAXBContext jaxbContext;

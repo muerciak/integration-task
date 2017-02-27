@@ -1,0 +1,14 @@
+available-line-tokenizer:
+  tokenizerConfigurations:
+    -
+      type: "P"
+      fields: firstName,lastName
+    -
+      type: "A"
+      fields: street,city,postalCode
+    -
+      type: "F"
+      fields: name,yearOfBirth
+    -
+      type: "T"
+      fields: mobileNumber,fixedNumber

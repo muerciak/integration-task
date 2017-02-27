@@ -2,36 +2,25 @@ package task1.factory;
 
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.FieldSet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import task1.model.*;
 
+import java.util.Map;
+
+@Component
 public class EntityFactory {
 
-    DelimitedLineTokenizer lineTokenizerPerson = null;
-    DelimitedLineTokenizer lineTokenizerAddress = null;
-    DelimitedLineTokenizer lineTokenizerPhone = null;
-    DelimitedLineTokenizer lineTokenizerFamily = null;
+    public static final String PERSON_NAME = "P";
+    public static final String ADDRESS = "A";
+    public static final String PHONE = "T";
+    public static final String FAMILY = "F";
+
+    @Autowired
+    Map<String, DelimitedLineTokenizer> lineTokenizerMap;
 
     public EntityFactory() {
-        lineTokenizerPerson = new DelimitedLineTokenizer("|");
-        lineTokenizerPerson.setNames(new String[]{"firstName", "lastName"});
-        lineTokenizerPerson.setIncludedFields(new int[]{0, 1});
-        lineTokenizerPerson.setStrict(false);
-
-        lineTokenizerAddress = new DelimitedLineTokenizer("|");
-        lineTokenizerAddress.setNames(new String[]{"street", "city", "postalCode"});
-        lineTokenizerAddress.setIncludedFields(new int[]{0, 1, 2});
-        lineTokenizerAddress.setStrict(false);
-
-        lineTokenizerPhone = new DelimitedLineTokenizer("|");
-        lineTokenizerPhone.setNames(new String[]{"mobileNumber", "fixedNumber"});
-        lineTokenizerPhone.setIncludedFields(new int[]{0, 1});
-        lineTokenizerPhone.setStrict(false);
-
-        lineTokenizerFamily = new DelimitedLineTokenizer("|");
-        lineTokenizerFamily.setNames(new String[]{"name", "yearOfBirth"});
-        lineTokenizerFamily.setIncludedFields(new int[]{0, 1});
-        lineTokenizerFamily.setStrict(false);
     }
 
     public Entity getEntity(String line) {
@@ -43,17 +32,17 @@ public class EntityFactory {
             return null;
         }
 
-        if (entityType.equalsIgnoreCase("P")) {
-            FieldSet personFields = lineTokenizerPerson.tokenize(value);
+        if (entityType.equalsIgnoreCase(PERSON_NAME)) {
+            FieldSet personFields = lineTokenizerMap.get(entityType).tokenize(value);
             return new PersonName(personFields.getValues()[0], personFields.getValues()[1]);
-        } else if (entityType.equalsIgnoreCase("A")) {
-            FieldSet adressFields = lineTokenizerAddress.tokenize(value);
+        } else if (entityType.equalsIgnoreCase(ADDRESS)) {
+            FieldSet adressFields = lineTokenizerMap.get(entityType).tokenize(value);
             return new Address(adressFields.getValues()[0], adressFields.getValues()[1], adressFields.getValues()[2]);
-        } else if (entityType.equalsIgnoreCase("T")) {
-            FieldSet phoneFields = lineTokenizerPhone.tokenize(value);
+        } else if (entityType.equalsIgnoreCase(PHONE)) {
+            FieldSet phoneFields = lineTokenizerMap.get(entityType).tokenize(value);
             return new Phone(phoneFields.getValues()[0], phoneFields.getValues()[1]);
-        } else if (entityType.equalsIgnoreCase("F")) {
-            FieldSet familyFields = lineTokenizerFamily.tokenize(value);
+        } else if (entityType.equalsIgnoreCase(FAMILY)) {
+            FieldSet familyFields = lineTokenizerMap.get(entityType).tokenize(value);
             return new Family(familyFields.getValues()[0], familyFields.getValues()[1]);
         }
 
