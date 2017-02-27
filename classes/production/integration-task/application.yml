@@ -1,0 +1,9 @@
+available-line-tokenizer:
+  xyz: "123"
+  tokenizerConfigurations:
+    -
+      type: "P"
+      fields: firstName,lastName
+    -
+      type: "A"
+      fields: street,city,postalCode"
