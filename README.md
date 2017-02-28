@@ -3,7 +3,9 @@
 Diagram przepływu opisuję bardzo podstawowy przepływ integracji.
 Z uwagi na charakter projektu (POC), projekt nie zawiera obsługi błędów. Integracja kończy się wypisaniem xmla na ekran.
 
+
 Opis przepływu.
+--
 
 1. Integracja zaczyna się od "poolera", który w określonych interwałach czasowych sprawdza dany katalog w poszukiwaniu nowych plików do przetworzenia.
 2. W przypadku zapisania pliku w katalogu przesyłana jest jego nazwa do komponentu (FileSplitter), który tnie plik na pojedyńcze linie.
@@ -13,6 +15,7 @@ Opis przepływu.
 6. Xml zawierający rekord zapisywany jest w bazie danych
 
 Usprawnienia:
+--
 
 Z uwagi na wymagania należało by wprowadzić pewne usprawnienia w celu obsługi wielu (dużych) plików.
 1. Nazwy plików gotowych do przetworzenia należy kierować do kolejki persystentnej, z której będą pobierane przez jeden lub więcej komponentów do ich przetwarzania.
